@@ -1,0 +1,118 @@
+{
+  "x_accounts": [
+    {
+      "name": "Vitalik Buterin",
+      "handle": "VitalikButerin",
+      "role": "Ethereum 联合创始人"
+    },
+    {
+      "name": "Anatoly Yakovenko",
+      "handle": "aeyakovenko",
+      "role": "Solana 创始人"
+    },
+    {
+      "name": "Keone Hon",
+      "handle": "keone",
+      "role": "Monad 创始人"
+    },
+    {
+      "name": "Mert Mumtaz",
+      "handle": "0xMert_",
+      "role": "Helius CEO（Solana 基建）"
+    },
+    {
+      "name": "Muneeb Ali",
+      "handle": "muneeb",
+      "role": "Stacks 创始人（BTC L2）"
+    },
+    {
+      "name": "Sandeep Nailwal",
+      "handle": "sandeepnailwal",
+      "role": "Polygon 联合创始人"
+    },
+    {
+      "name": "Stani Kulechov",
+      "handle": "StaniKulechov",
+      "role": "Aave 创始人"
+    },
+    {
+      "name": "Robert Leshner",
+      "handle": "robertleshner",
+      "role": "Compound 创始人"
+    },
+    {
+      "name": "Andre Cronje",
+      "handle": "AndreCronjeTech",
+      "role": "Fantom 核心开发者"
+    },
+    {
+      "name": "Antonio Juliano",
+      "handle": "AntonioMJuliano",
+      "role": "dYdX 创始人"
+    },
+    {
+      "name": "Arthur Hayes",
+      "handle": "CryptoHayes",
+      "role": "BitMEX 创始人"
+    },
+    {
+      "name": "Brian Armstrong",
+      "handle": "brian_armstrong",
+      "role": "Coinbase CEO"
+    },
+    {
+      "name": "CZ",
+      "handle": "cz_binance",
+      "role": "Binance 创始人"
+    },
+    {
+      "name": "Dan Romero",
+      "handle": "dwr",
+      "role": "Farcaster/Warpcast 创始人"
+    }
+  ],
+  "podcasts": [
+    {
+      "name": "Bankless",
+      "rssUrl": "https://feeds.flightcast.com/p83fuj0y0u58o82l41xei7zo.xml",
+      "url": "https://www.bankless.com/"
+    },
+    {
+      "name": "Unchained",
+      "rssUrl": "https://feeds.megaphone.fm/LSHML4761942757",
+      "url": "https://unchainedcrypto.com/podcast/"
+    },
+    {
+      "name": "Empire",
+      "rssUrl": "https://feeds.megaphone.fm/empire",
+      "url": "https://blockworks.co/podcast"
+    },
+    {
+      "name": "a16z crypto",
+      "rssUrl": "https://feeds.simplecast.com/XPOpH7r4",
+      "url": "https://a16zcrypto.com/podcasts/"
+    }
+  ],
+  "blogs": [
+    {
+      "name": "Vitalik 博客",
+      "type": "rss",
+      "rssUrl": "https://vitalik.eth.limo/feed.xml"
+    },
+    {
+      "name": "Bankless",
+      "type": "rss",
+      "rssUrl": "https://www.bankless.com/feed"
+    },
+    {
+      "name": "CoinDesk",
+      "type": "rss",
+      "rssUrl": "https://www.coindesk.com/arc/outboundfeeds/rss/"
+    },
+    {
+      "name": "Decrypt",
+      "type": "rss",
+      "rssUrl": "https://decrypt.co/feed"
+    }
+  ]
+}

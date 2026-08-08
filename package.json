@@ -1,0 +1,13 @@
+{
+  "name": "chain-digest-feed",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Centralized X feed for Chain Builders Digest — runs in GitHub Actions with official X API v2",
+  "scripts": {
+    "generate": "node scripts/generate-feed.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

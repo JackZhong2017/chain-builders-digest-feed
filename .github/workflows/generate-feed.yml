@@ -1,0 +1,39 @@
+name: Generate X Feed
+
+on:
+  schedule:
+    # 每天 17:23 UTC = 北京时间次日 01:23，赶在 Chain Builders Digest (02:47 CST) 之前更新
+    - cron: '23 17 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force refetch all'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate feed
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: node scripts/generate-feed.js
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add feed-x.json state/
+          git diff --cached --quiet || git commit -m "chore: update feed [skip ci]"
+          git push
