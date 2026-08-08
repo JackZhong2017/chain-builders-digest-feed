@@ -2,7 +2,7 @@ name: Generate X Feed
 
 on:
   schedule:
-    # 每天 17:23 UTC = 北京时间次日 01:23，赶在 Chain Builders Digest (02:47 CST) 之前更新
+    # 每天 17:23 UTC = 北京时间次日 01:23，赶在 Chain Builders Digest (02:57 CST) 之前更新
     - cron: '23 17 * * *'
   workflow_dispatch:
     inputs:

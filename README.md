@@ -6,7 +6,7 @@ Chain Builders Digest 的**中心化 X feed**。抓取在 GitHub Actions 里跑�
 ## 架构
 
 ```
-GitHub Actions (每天 17:23 UTC)         本地 (每天 02:47 CST)
+GitHub Actions (每天 17:23 UTC)         本地 (每天 02:57 CST)
 ┌──────────────────────────┐            ┌──────────────────────────┐
 │ generate-feed.js         │            │ prepare-digest.js        │
 │  X_BEARER_TOKEN (secret) │──commit──▶ │  fetch feed-x.json (raw) │
