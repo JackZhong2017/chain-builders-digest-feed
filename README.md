@@ -27,5 +27,5 @@ GitHub Actions (每天 17:23 UTC)         本地 (每天 02:57 CST)
 
 - `scripts/generate-feed.js` — 抓取脚本（零 npm 依赖，Node 20+）
 - `config/sources.json` — 14 个 crypto builders 名单
-- `state/user-ids.json` — user id 缓存（自动生成，减少 API 调用）
+- `state/user-ids.json` — 本地 user id 缓存（自动生成，已加入 `.gitignore`）
 - `feed-x.json` — 输出（每次运行自动更新）

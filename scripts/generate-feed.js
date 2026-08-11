@@ -6,13 +6,15 @@
 // 输出 feed-x.json 供本地 Chain Builders Digest 拉取。零 npm 依赖（Node 20+ 内置 fetch）。
 //
 // Env:  X_BEARER_TOKEN (官方 API v2 Bearer token；未设置时生成空 feed 并提示)
-// 输出: feed-x.json + state/user-ids.json (user id 缓存，减少 API 调用)
+// 输出: feed-x.json；state/user-ids.json 仅作本地缓存，不公开提交
 // ============================================================================
 
 import { readFile, writeFile, mkdir } from 'fs/promises';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync } from 'fs';
+
+import { readJsonWithLimit, redactSensitiveText } from './security-utils.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -26,6 +28,7 @@ const NOW = Date.now();
 const HOUR = 3600 * 1000;
 const LOOKBACK = 30 * HOUR; // 30 小时回溯（与本地 digest 一致）
 const MAX_TWEETS_PER_USER = 10;
+const MAX_API_RESPONSE_BYTES = 2 * 1024 * 1024;
 
 if (!TOKEN) {
   console.error('⚠️  X_BEARER_TOKEN 未设置 — 生成空 feed（digest 将显示 X 暂缺，RSS 照常）');
@@ -39,14 +42,20 @@ async function api(path, params = {}) {
     headers: { Authorization: `Bearer ${TOKEN}` }
   });
   if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    throw new Error(`HTTP ${res.status}: ${body.slice(0, 200)}`);
+    await res.body?.cancel().catch(() => {});
+    throw new Error(`X API request failed with HTTP ${res.status}`);
   }
-  return res.json();
+  return readJsonWithLimit(res, MAX_API_RESPONSE_BYTES);
 }
 
 async function loadIdCache() {
-  if (existsSync(ID_CACHE)) return JSON.parse(await readFile(ID_CACHE, 'utf8'));
+  if (existsSync(ID_CACHE)) {
+    const parsed = JSON.parse(await readFile(ID_CACHE, 'utf8'));
+    return Object.fromEntries(Object.entries(parsed).flatMap(([handle, record]) => {
+      const id = String(record?.id || '');
+      return /^\d{1,30}$/.test(id) ? [[handle, { id }]] : [];
+    }));
+  }
   return {};
 }
 
@@ -55,9 +64,9 @@ async function resolveUserIds(accounts) {
   const missing = accounts.filter(a => !cache[a.handle]);
   for (const a of missing) {
     try {
-      const j = await api(`/users/by/username/${a.handle}`, { 'user.fields': 'description' });
-      if (j.data?.id) cache[a.handle] = { id: j.data.id, bio: j.data.description || '' };
-      console.log(`resolved: ${a.handle} -> ${j.data?.id || 'N/A'}`);
+      const j = await api(`/users/by/username/${a.handle}`);
+      if (j.data?.id) cache[a.handle] = { id: String(j.data.id) };
+      console.log(`resolved: ${a.handle}`);
       await new Promise(r => setTimeout(r, 1100)); // rate limit 宽松
     } catch (e) {
       console.error(`resolve ${a.handle} failed: ${e.message}`);
@@ -76,7 +85,7 @@ async function fetchTweetsForUser(userId) {
   });
   const tweets = (j.data || []).map(t => ({
     id: t.id,
-    text: t.text,
+    text: redactSensitiveText(t.text).slice(0, 500),
     createdAt: t.created_at
   }));
   // 过滤回溯窗口
@@ -101,7 +110,6 @@ async function main() {
         name: a.name,
         handle: a.handle,
         role: a.role,
-        bio: rec.bio || '',
         tweets
       });
       console.log(`${a.handle}: ${tweets.length} tweets in window`);
@@ -115,7 +123,6 @@ async function main() {
 }
 
 async function writeFeed(payload) {
-  await mkdir(STATE_DIR, { recursive: true });
   const feed = {
     generatedAt: new Date().toISOString(),
     lookbackHours: LOOKBACK / HOUR,
