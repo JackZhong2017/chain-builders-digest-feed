@@ -1,7 +1,7 @@
-# Chain Digest Feed
+# Chain Builders Digest Feed
 
 Chain Builders Digest 的**中心化 X feed**。抓取在 GitHub Actions 里跑（官方 X API v2），
-本地 chain-digest 只 fetch 本 repo 的 `feed-x.json`，不再直连 nitter。
+本地 Chain Builders Digest 只 fetch 本 repo 的 `feed-x.json`，不再直连 nitter。
 
 ## 架构
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // ============================================================================
-// Chain Digest Feed — Generate X Feed (GitHub Actions)
+// Chain Builders Digest Feed — Generate X Feed (GitHub Actions)
 // ============================================================================
 // 在 GitHub Actions 里用官方 X API v2 抓 crypto builders 的推文，
-// 输出 feed-x.json 供本地 chain-digest 拉取。零 npm 依赖（Node 20+ 内置 fetch）。
+// 输出 feed-x.json 供本地 Chain Builders Digest 拉取。零 npm 依赖（Node 20+ 内置 fetch）。
 //
 // Env:  X_BEARER_TOKEN (官方 API v2 Bearer token；未设置时生成空 feed 并提示)
 // 输出: feed-x.json + state/user-ids.json (user id 缓存，减少 API 调用)
